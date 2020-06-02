@@ -18,30 +18,56 @@ languageCode_hyphen = languageCode.replace('_', '-').replace(' ', '-');  # this 
 languageCode_slash = '/' + languageCode + '/';
 suffix = '_' + languageCode_underscore + '.properties';
 
+print languageCode
+print languageCode_underscore
+print suffix
+
 jar_whitelist = [ # list of jars that will be scanned for messages.
-    # tomcat
-    'pentaho-actionsequence-dom',
-    'pentaho-bi-platform-ee',
-    'pentaho-chartbeans',
-    'pentaho-connections',
-    'pentaho-metadata',
-    'pentaho-platform-',
-    'pentaho-reporting-engine',
-    #
-    #system
-    #
-    'common-ui',
-    # data-access
-    'pentaho-bi-platform-data-access',
-    'pentaho-database-gwt',
-    'pentaho-modeler',
-    # dashboards
-    'pentaho-dashboard',
-    'pentaho-dashboard-chart-editor',
-    'pentaho-mql-editor',
-    # pivot4j
-    'pivot4j-analytics',
-    'pivot4j-core'
+    'pdi-dataservice-driver-bundle',
+    'kettle-shapefilereader-plugin',
+    'elasticsearch-bulk-insert-plugin',
+    'lucid-db-streaming-loader-plugin',
+    'ms-access-plugins',
+    'vertica-bulkloader',
+    'pdi-salesforce',
+    'scheduler-plugin',
+    'pdi-arffoutput',
+    'pdi-xml-plugin',
+    'kinesis-plugin',
+    'google-bigquery',
+    'google-cloud-storage-vfs',
+    'pdi-google-analytics-plugin',
+    'pdi-weka-forecasting-plugin',
+    'snowflake',
+    'pdi-wekascoring-plugin',
+    'gp-bulk-loader',
+    'pdi-pur-plugin',
+    'kettle-gpload-plugin',
+    'pdi-jms-plugin',
+    'weka-timeseriesForecasting',
+    'pdi-weka-knowledge-flow-plugin',
+    'pdi-core-plugins',
+    'catalog-plugin',
+    'kettle-hl7-plugin',
+    'pentaho-r-plugin',
+    'kettle-s3csvinput-plugin',
+    'pdi-copybook-plugin',
+    'kettle-palo-plugin',
+    'pentaho-cassandra-plugin',
+    'pdi-teradata-tpt-plugin',
+    'hcp',
+    'redshift-plugins',
+    'pentaho-big-data',
+    'pentaho-splunk-plugin',
+    'platform-utils-plugin',
+    'pdi-hana-plugin',
+    'kettle-dummy-plugin',
+    'pentaho-googledrive-vfs',
+    'kettle-json-plugin',
+    'kettle-sap-plugin',
+    'kettle-drools5',
+    'python-executor',
+    'kettle-version-checker'
 ]
 #file_blacklist = ['system/common-ui/resources/messages']
 
@@ -288,7 +314,7 @@ for root, dirs, filenames in os.walk('.'):
                         e = el.lower()
                         dst = os.path.realpath(os.path.join(destination_folder, root, f.replace('.jar', '_jar'), el.replace(languageCode_hyphen, languageCode_underscore) ))
                         dst = replace_version(dst)
-                        if e.endswith('messages_'+ suffix.lower()) or e.endswith('messages_'+ languageCode_hyphen.lower()  +'.properties'):
+                        if e.endswith('messages'+ suffix.lower()) or e.endswith('messages_'+ languageCode_hyphen.lower()  +'.properties'):
                             debug('Copying/patching:\n  ' +  os.path.realpath(os.path.join(origin_folder, src, el)) + '\nto\n  ' + dst + '\n')
                             tmpfolder = os.tmpnam()
                             z.extract(el, tmpfolder)

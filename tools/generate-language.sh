@@ -1,37 +1,37 @@
 #!/bin/bash
 
-ORIGIN=/Users/carlos/webdetails/servers/6GA/biserver-ee
-DEST=/Users/carlos/webdetails/projects/languagePackInstaller/data
+ORIGIN=/Users/wilseyler/Downloads/pdi-ee-client-9.1.0.0-212/data-integration
+DEST=/Users/wilseyler/Desktop/languagePackInstaller/data-integration
 
 HERE=$(pwd)
 for locale in "$@"
 do
     (
         # Create files missing in the biserver
-        touch  $ORIGIN/pentaho-solutions/system/data-access/resources/messages/messages_supported_languages.properties
+        # touch  $ORIGIN/pentaho-solutions/system/data-access/resources/messages/messages_supported_languages.properties
 
         # Generate the bundles
-        ./generate_language_bundle.py "$locale" $ORIGIN/tomcat $DEST/"$locale"/tomcat
-        ./generate_language_bundle.py "$locale" $ORIGIN/pentaho-solutions/system $DEST/"$locale"/system
+        ./generate_language_bundle.py "$locale" $ORIGIN $DEST/"$locale"
+        # ./generate_language_bundle.py "$locale" $ORIGIN/pentaho-solutions/system $DEST/"$locale"/system
 
         # fix
-        find  $DEST/"$locale"/system/common-ui/ -iname "*.properties" | xargs -I {} sed -i '' 's/messagebundleid=\(.*\)<TRANSLATE ME>/messagebundleid=\1/g' {}
-
-        rm -rf $DEST/"$locale"/tomcat/webapps/pentaho/js
+        # find  $DEST/"$locale"/system/common-ui/ -iname "*.properties" | xargs -I {} sed -i '' 's/messagebundleid=\(.*\)<TRANSLATE ME>/messagebundleid=\1/g' {}
+        #
+        # rm -rf $DEST/"$locale"/tomcat/webapps/pentaho/js
 
         # handle metadata
-        if [ ! -f $DEST/"$locale"/metadata.json ]; then
-            cp $DEST/metadata.json $DEST/"$locale"/
-            sed -i '' 's/Klingon/@$locale@/g'  $DEST/"$locale"/metadata.json
-            sed -i '' "s/tlh/$locale/g"  $DEST/"$locale"/metadata.json
-        fi
-        if [ ! -d $DEST/"$locale"/resources ]; then
-            rsync -uva $DEST/tlh/resources $DEST/"$locale"/
-            find $DEST/"$locale"/resources -iname "*.properties" |  xargs -I {} sed -i '' 's/Klingon/@$locale@/g' {}
-        fi
-
-        find $DEST/"$locale" -iname "*.js" | xargs js-beautify -r
-        rm -rf $DEST/"$locale"/system/plugin-cache
+        # if [ ! -f $DEST/"$locale"/metadata.json ]; then
+        #     cp $DEST/metadata.json $DEST/"$locale"/
+        #     sed -i '' 's/Klingon/@$locale@/g'  $DEST/"$locale"/metadata.json
+        #     sed -i '' "s/tlh/$locale/g"  $DEST/"$locale"/metadata.json
+        # fi
+        # if [ ! -d $DEST/"$locale"/resources ]; then
+        #     rsync -uva $DEST/tlh/resources $DEST/"$locale"/
+        #     find $DEST/"$locale"/resources -iname "*.properties" |  xargs -I {} sed -i '' 's/Klingon/@$locale@/g' {}
+        # fi
+        #
+        # find $DEST/"$locale" -iname "*.js" | xargs js-beautify -r
+        # rm -rf $DEST/"$locale"/system/plugin-cache
 
         #cd $DEST/
         #zip -r zips/"$locale" "$locale"
