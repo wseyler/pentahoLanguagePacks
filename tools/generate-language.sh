@@ -15,6 +15,11 @@ do
         # ./generate_language_bundle.py "$locale" $ORIGIN/pentaho-solutions/system $DEST/"$locale"/system
 
         # fix
+        rm -rf $DEST/"$locale"/adaptive-execution/lib
+        rm -rf $DEST/"$locale"/adaptive-execution/extra/kinesis-plugin-impl-*
+        rm -rf $DEST/"$locale"/lib/spring-security-core-*
+        rm -rf $DEST/"$locale"/system/karaf/system/com/pentaho/di/plugins/snowflake-staging-vfs-ui
+        rm -rf $DEST/"$locale"/system/karaf/system/com/pentaho/di/plugins/pentaho-ee-streaming-amqp-plugin
         # find  $DEST/"$locale"/system/common-ui/ -iname "*.properties" | xargs -I {} sed -i '' 's/messagebundleid=\(.*\)<TRANSLATE ME>/messagebundleid=\1/g' {}
         #
         # rm -rf $DEST/"$locale"/tomcat/webapps/pentaho/js
